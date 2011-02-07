@@ -230,6 +230,8 @@ module Thin
           Backends::SwiftiplyClient.new(host, port, options)
         when host.include?('/')
           Backends::UnixServer.new(host)
+        when options.has_key?(:reuse)
+          Backends::ReusedTcpServer.new(port) # not actually a port
         else
           Backends::TcpServer.new(host, port)
         end
